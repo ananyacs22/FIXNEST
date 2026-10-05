@@ -1,0 +1,143 @@
+.issue-list-section {
+  width: min(1100px, 94%);
+  margin: 35px auto;
+  color: #edf5ff;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.issue-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.issue-list-heading h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.issue-list-heading p {
+  margin: 0;
+  color: #a8bfd8;
+  font-size: 14px;
+}
+
+.issue-list-heading button,
+.issue-error button {
+  padding: 11px 17px;
+  border: 1px solid #38bdf8;
+  border-radius: 10px;
+  background: #102b46;
+  color: #e0f2fe;
+  cursor: pointer;
+}
+
+.issue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.issue-card {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #294965;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #172b45, #102033);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.16);
+  overflow-wrap: anywhere;
+}
+
+.issue-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.issue-category {
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #123e58;
+  color: #67e8f9;
+  font-size: 12px;
+}
+
+.issue-status {
+  color: #86efac;
+  font-size: 12px;
+}
+
+.issue-card h3 {
+  margin: 20px 0 10px;
+  color: #fff;
+  font-size: 19px;
+}
+
+.issue-description {
+  color: #bfd0e3;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.issue-location {
+  margin-top: 18px;
+  padding: 13px;
+  border-radius: 11px;
+  background: #0b1929;
+  color: #bae6fd;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.issue-location p {
+  margin: 8px 0 0;
+}
+
+.issue-card-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #29415a;
+  color: #a8bfd8;
+  font-size: 12px;
+}
+
+.issue-empty {
+  padding: 35px 15px;
+  border: 1px dashed #36536f;
+  border-radius: 16px;
+  background: #13243a;
+  text-align: center;
+  color: #cbd5e1;
+}
+
+.issue-empty span {
+  font-size: 38px;
+}
+
+.issue-empty p {
+  color: #9fb4c9;
+}
+
+.issue-error {
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: #451a24;
+  color: #fecaca;
+}
+
+@media (max-width: 600px) {
+  .issue-list-heading h2 {
+    font-size: 23px;
+  }
+}
