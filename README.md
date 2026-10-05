@@ -537,23 +537,6 @@ FixNest can incorporate security practices such as:
 
 ---
 
-# 📊 Project Status
-
-| Component            | Status                      |
-| -------------------- | --------------------------- |
-| Project Concept      | ✅ Completed                 |
-| UI Development       | ✅ Completed / In Progress   |
-| Core Pages           | ✅ Completed / In Progress   |
-| Issue Reporting      | ✅ Implemented / In Progress |
-| Issue Tracking       | ✅ Implemented / In Progress |
-| Dashboard            | ✅ Implemented / In Progress |
-| Backend Integration  | 🔄 In Progress              |
-| Database Integration | 🔄 In Progress              |
-| Advanced AI Features | 🔮 Future Scope             |
-| Mobile Application   | 🔮 Future Scope             |
-
----
-
 # 🧠 Why FixNest?
 
 Traditional issue reporting often depends on:
@@ -581,6 +564,7 @@ The vision of FixNest is to create a smarter and more organized service-manageme
 ### Team FixNest
 
 **Project Name:** FIXNEST
+
 **Project Type:** Web-Based Service & Issue Management Platform
 
 ---
@@ -599,7 +583,4 @@ From **reporting an issue → assigning it → tracking progress → resolving i
 
 > **FIXNEST — Report. Track. Resolve.**
 
-```
 
-**One important thing:** before you paste it, we should replace the few `[Add your ... here]` and “Completed / In Progress” placeholders with the **exact technologies and files actually present in your FIXNEST GitHub project**. That’ll make the README 100% accurate rather than generic.
-```
