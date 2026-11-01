@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       enum: ["resident", "provider", "admin"],
       default: "resident",
     },
+    isVerifiedResident: {
+  type: Boolean,
+  default: false,
+},
 
     phone: {
       type: String,

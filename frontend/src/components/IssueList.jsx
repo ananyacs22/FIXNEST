@@ -6,16 +6,20 @@ function IssueList() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [voting, setVoting] = useState({});
+  const [upvotingId, setUpvotingId] = useState(null);
 
+  // Fetch all issues
   const fetchIssues = async () => {
     setLoading(true);
     setError("");
 
     try {
       const response = await api.get("/issues");
+
       setIssues(response.data.issues || []);
     } catch (err) {
+      console.error("Fetch issues error:", err);
+
       setError(
         err.response?.data?.message ||
           "Unable to load issues. Please check the backend."
@@ -25,14 +29,14 @@ function IssueList() {
     }
   };
 
-  useEffect(() => {
-    fetchIssues();
-  }, []);
-
+  // Upvote an issue
   const handleUpvote = async (issueId) => {
-    if (voting[issueId]) return;
+    // Prevent multiple clicks while the request is running
+    if (upvotingId === issueId) {
+      return;
+    }
 
-    setVoting((prev) => ({ ...prev, [issueId]: true }));
+    setUpvotingId(issueId);
 
     try {
       const response = await api.patch(
@@ -41,103 +45,165 @@ function IssueList() {
 
       const updatedIssue = response.data.issue;
 
-      setIssues((prev) =>
-        prev.map((issue) =>
+      // Update only the issue that was upvoted
+      setIssues((currentIssues) =>
+        currentIssues.map((issue) =>
           issue._id === issueId ? updatedIssue : issue
         )
       );
     } catch (err) {
+      console.error("Upvote error:", err);
+
       alert(
         err.response?.data?.message ||
-          "Unable to upvote. Please try again."
+          "Unable to upvote this issue. Please try again."
       );
     } finally {
-      setVoting((prev) => ({ ...prev, [issueId]: false }));
+      setUpvotingId(null);
     }
   };
 
+  // Load issues when page opens
+  useEffect(() => {
+    fetchIssues();
+  }, []);
+
   return (
     <section className="issue-list-section">
+      {/* HEADER */}
       <div className="issue-list-heading">
         <div>
           <h2>Community Issues</h2>
-          <p>Let's make our apartment community better together.</p>
+          <p>
+            Let's make our apartment community better together.
+          </p>
         </div>
 
-        <button onClick={fetchIssues} disabled={loading}>
+        <button
+          type="button"
+          onClick={fetchIssues}
+          disabled={loading}
+        >
           {loading ? "Loading..." : "↻ Refresh"}
         </button>
       </div>
 
-      {loading && <p>Loading community issues...</p>}
+      {/* LOADING */}
+      {loading && (
+        <p>Loading community issues...</p>
+      )}
 
+      {/* ERROR */}
       {error && (
         <div className="issue-error">
           <p>{error}</p>
-          <button onClick={fetchIssues}>Try Again</button>
+
+          <button
+            type="button"
+            onClick={fetchIssues}
+          >
+            Try Again
+          </button>
         </div>
       )}
 
-      {!loading && !error && issues.length === 0 && (
-        <div className="issue-empty">
-          <span>🏢</span>
-          <h3>No issues reported yet</h3>
-          <p>Reported problems will appear here.</p>
-        </div>
-      )}
+      {/* NO ISSUES */}
+      {!loading &&
+        !error &&
+        issues.length === 0 && (
+          <div className="issue-empty">
+            <span>🏢</span>
 
+            <h3>No issues reported yet</h3>
+
+            <p>
+              Reported problems will appear here.
+            </p>
+          </div>
+        )}
+
+      {/* ISSUE CARDS */}
       <div className="issue-grid">
         {issues.map((issue) => (
-          <article className="issue-card" key={issue._id}>
+          <article
+            className="issue-card"
+            key={issue._id}
+          >
+            {/* CATEGORY + STATUS */}
             <div className="issue-card-top">
               <span className="issue-category">
                 {issue.category}
               </span>
+
               <span className="issue-status">
                 {issue.status || "Reported"}
               </span>
             </div>
 
+            {/* TITLE */}
             <h3>{issue.title}</h3>
 
+            {/* DESCRIPTION */}
             <p className="issue-description">
               {issue.description}
             </p>
 
+            {/* APARTMENT LOCATION */}
             <div className="issue-location">
-              <strong>📍 Apartment Details</strong>
+              <strong>
+                📍 Apartment Details
+              </strong>
+
               <p>
+                Apartment:{" "}
                 {issue.location?.apartment ||
-                  issue.apartmentName ||
-                  "Apartment"}
+                  "—"}
               </p>
+
               <p>
-                Block: {issue.location?.block || issue.block || "—"}
+                Block:{" "}
+                {issue.location?.block ||
+                  "—"}
               </p>
+
               <p>
-                Floor: {issue.location?.floor ?? issue.floor ?? "—"}
+                Floor:{" "}
+                {issue.location?.floor ?? "—"}
               </p>
+
               <p>
-                Flat: {issue.location?.roomNumber ||
-                  issue.flatNumber ||
+                Room / Flat:{" "}
+                {issue.location?.roomNumber ||
                   "—"}
               </p>
             </div>
 
+            {/* FOOTER */}
             <div className="issue-card-footer">
+
+              {/* UPVOTE BUTTON */}
               <button
                 type="button"
-                onClick={() => handleUpvote(issue._id)}
-                disabled={Boolean(voting[issue._id])}
-                aria-label={`Upvote ${issue.title}`}
+                className="upvote-button"
+                onClick={() =>
+                  handleUpvote(issue._id)
+                }
+                disabled={
+                  upvotingId === issue._id
+                }
               >
-                👍 {issue.upvotes || 0} upvotes
-                {voting[issue._id] ? " ..." : ""}
+                👍{" "}
+                {upvotingId === issue._id
+                  ? "Updating..."
+                  : `${issue.upvotes || 0} Upvotes`}
               </button>
 
+              {/* DATE */}
               <span>
                 {issue.createdAt
-                  ? new Date(issue.createdAt).toLocaleDateString(
+                  ? new Date(
+                      issue.createdAt
+                    ).toLocaleDateString(
                       "en-IN"
                     )
                   : ""}

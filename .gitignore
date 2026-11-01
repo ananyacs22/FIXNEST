@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+# FIXNEST specific
+backend/.env
+backend/node_modules/
+backend/Uploads/

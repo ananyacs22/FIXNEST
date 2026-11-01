@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const issueSchema = new mongoose.Schema(
@@ -26,10 +27,20 @@ const issueSchema = new mongoose.Schema(
         "Other",
       ],
     },
+
     upvotes: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0,
     },
+
+    // Stores users who have upvoted this issue
+    upvotedBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
     status: {
       type: String,
@@ -72,11 +83,6 @@ const issueSchema = new mongoose.Schema(
     image: {
       type: String,
       default: "",
-    },
-
-    upvotes: {
-      type: Number,
-      default: 0,
     },
 
     comments: [
